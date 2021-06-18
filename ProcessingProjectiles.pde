@@ -20,7 +20,7 @@ void setup()
 
 void initialisiere_Spielfeld() // hier wird das Spielfeld gefüllt,
 {                              // wie auch immer -> EDITIEREN
-	for(int i = 0; i < 20; i++) {
+	for(int i = 0; i < 200; i++) {
 		now[(int) random(0, MAXV)][(int) random(0, MAXV)] = floor(random(1, 5));
 	}
 }
@@ -43,9 +43,7 @@ void draw() // Zeichenroutine, normalerweise nicht editieren
 // ----------------------------------------------------
 
 void berechne_Folgezustand() // hier steckt das Regelwerk drin -> EDITIEREN
-{                            // (i. d. R. aber nur innerhalb der j-Schleife)
-	now[(int) random(0, MAXV)][(int) random(0, MAXV)] = floor(random(1, 5));
-	
+{                            // (i. d. R. aber nur innerhalb der j-Schleife)	
 	for (i = 0; i < MAXV; i++)
 	{
 		for (j = 0; j < MAXV; j++)
@@ -72,31 +70,30 @@ void berechne_Folgezustand() // hier steckt das Regelwerk drin -> EDITIEREN
 				if(neighbor_w == 4)
 					next_me = 4;
 			}
-			else if(me == 1) // rot
+			if(me == 1) // rot
 			{
 				next_me = 5;
 			}
-			else if(me == 2) // blau
+			if(me == 2) // blau
 			{
 				next_me = 5;
 			}
-			else if(me == 3) // gelb
+			if(me == 3) // gelb
 			{
 				next_me = 5;
 			}
-			else if(me == 4) // grün
+			if(me == 4) // grün
 			{
 				next_me = 5;
 			}
-			else if(me >= 20)
+			if(me >= 20)
 			{
 				next_me = 0;
 			}
-			else if(me >= 5)
+			if(me >= 5 && next_me == me)
 			{
 				next_me = me+1;
 			}
-			
 
 			then[i][j] = next_me;
 		}
@@ -149,7 +146,7 @@ void zeichne_ein_Feld(int x0, int y0) // wie ein Feld sich mit
 	}
 	else if (now[x0][y0] >= 5)
 	{
-		fill(127-now[x0][y0]*6);
+		fill(127-now[x0][y0]*4);
 		rect(x0*FSIZE,y0*FSIZE,FSIZE,FSIZE);
 	}
 }
