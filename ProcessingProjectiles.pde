@@ -88,7 +88,7 @@ void berechne_Folgezustand() // hier steckt das Regelwerk drin -> EDITIEREN
 			{
 				next_me = 5;
 			}
-			if(me >= 20)
+			else if(me >= 20)
 			{
 				next_me = 0;
 			}
