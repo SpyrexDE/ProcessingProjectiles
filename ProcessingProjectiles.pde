@@ -7,6 +7,12 @@ int FSIZE = 8; // Größe eines Feldes in Pixeln
 int i; // oft benutzte Zähl-
 int j; // variablen
 
+int RED = 1;
+int GREEN = 2;
+int ORANGE = 3;
+int YELLOW = 4;
+int BLUE = 5;
+
 void setup()
 {
 	size(640, 640); // das Spielfeld ist quadratisch
@@ -56,41 +62,44 @@ void berechne_Folgezustand() // hier steckt das Regelwerk drin -> EDITIEREN
 			int neighbor_d = now[kkw(i+1)][kkw(j)];
 			int neighbor_x = now[kkw(i)][kkw(j+1)];
 
+			int neighbor_q = now[kkw(i-1)][kkw(j-1)];
+			int neighbor_e = now[kkw(i+1)][kkw(j-1)];
+			int neighbor_c = now[kkw(i+1)][kkw(j+1)];
+			int neighbor_y = now[kkw(i-1)][kkw(j+1)];
+
 			if(me == 0 || me >= 5) // schwarz
 			{
-				if(neighbor_a == 1)
-					next_me = 1;
+				if(neighbor_a == RED)
+				{
+					if(neighbor_d == BLUE)
+						next_me = YELLOW;
+					else
+						next_me = RED;
+				}
+				
+				if(neighbor_d == BLUE)
+					next_me = BLUE;
 
-				if(neighbor_d == 2)
-					next_me = 2;
+				if(neighbor_x == YELLOW)
+					next_me = YELLOW;
 
-				if(neighbor_x == 3)
-					next_me = 3;
+				if(neighbor_q == ORANGE) 
+					next_me = ORANGE;
+				
+				if(neighbor_a == RED) 
+					next_me = RED;	
 
-				if(neighbor_w == 4)
-					next_me = 4;
+				if(neighbor_y == GREEN)
+					next_me = GREEN;
 			}
-			if(me == 1) // rot
-			{
-				next_me = 5;
-			}
-			if(me == 2) // blau
-			{
-				next_me = 5;
-			}
-			if(me == 3) // gelb
-			{
-				next_me = 5;
-			}
-			if(me == 4) // grün
-			{
-				next_me = 5;
+			if(me >= 1 && me <= 9) {
+				next_me = 10;
 			}
 			if(me >= 20)
 			{
 				next_me = 0;
 			}
-			if(me >= 5 && next_me == me)
+			if(me >= 10 && next_me == me)
 			{
 				next_me = me+1;
 			}
@@ -124,29 +133,30 @@ void zeichne_ein_Feld(int x0, int y0) // wie ein Feld sich mit
 		fill(0);
 		rect(x0*FSIZE,y0*FSIZE,FSIZE,FSIZE);
 	}
-	else if (now[x0][y0] == 1)
+	else if (now[x0][y0] == RED)
 	{
 		fill(255, 0, 0);
 		rect(x0*FSIZE,y0*FSIZE,FSIZE,FSIZE);
 	}
-	else if (now[x0][y0] == 2)
+	else if (now[x0][y0] == BLUE)
 	{
 		fill(0, 0, 255);
 		rect(x0*FSIZE,y0*FSIZE,FSIZE,FSIZE);
 	}
-	else if (now[x0][y0] == 3)
+	else if (now[x0][y0] == YELLOW)
 	{
 		fill(255, 255, 0);
 		rect(x0*FSIZE,y0*FSIZE,FSIZE,FSIZE);
 	}
-	else if (now[x0][y0] == 4)
+	else if (now[x0][y0] == GREEN)
 	{
 		fill(0, 255, 0);
 		rect(x0*FSIZE,y0*FSIZE,FSIZE,FSIZE);
 	}
-	else if (now[x0][y0] >= 5)
+
+	else if (now[x0][y0] >= 10)
 	{
-		fill(127-now[x0][y0]*4);
+		fill(127-(now[x0][y0]-10)*4);
 		rect(x0*FSIZE,y0*FSIZE,FSIZE,FSIZE);
 	}
 }
